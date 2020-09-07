@@ -3,14 +3,12 @@
 @{
     ViewData["Title"] = "Index";
 }
+&nbsp;
+<h1 class="text-center">Total Balance: @ViewBag.TotalBalance</h1>
 
-<h1>Index</h1>
-
-<p>
-    @ViewBag.TotalBalance
-</p>
-<table class="table">
-    <thead>
+&nbsp;
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Concept)
@@ -27,10 +25,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -50,14 +44,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
