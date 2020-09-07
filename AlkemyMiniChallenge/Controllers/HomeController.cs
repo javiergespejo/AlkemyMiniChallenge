@@ -22,8 +22,10 @@ namespace AlkemyMiniChallenge.Controllers
         }
         public IActionResult Index()
         {
+            //var total = db.tblCartItems.Where(t => t.CartId == cartId).Sum(i => i.Price);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var mostUsedTags = db.Tags.OrderByDescending(t => t.Videos.Count).Take(10);
+            var total = _context.Operation.Where(o => o.UserId == userId).Sum(x => x.Amount);
+            ViewBag.TotalBalance = total;
             var operation = from s in _context.Operation.OrderByDescending(x => x.Id).Where(o => o.UserId == userId).Include(x => x.Category).Take(10)
                             select s;
 
