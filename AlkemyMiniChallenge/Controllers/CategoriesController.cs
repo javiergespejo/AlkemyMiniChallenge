@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AlkemyMiniChallenge.Data;
 using AlkemyMiniChallenge.Models;
+using AlkemyMiniChallenge.Services;
 
 namespace AlkemyMiniChallenge.Controllers
 {
@@ -20,7 +21,10 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(
+        string sortOrder,
+        string currentFilter,
+        int? pageNumber)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             var category = from s in _context.Category
@@ -31,7 +35,8 @@ namespace AlkemyMiniChallenge.Controllers
                 "name_desc" => category.OrderByDescending(s => s.Name),
                 _ => category.OrderBy(s => s.Name),
             };
-            return View(await category.AsNoTracking().ToListAsync());
+            int pageSize = 10;
+            return View(await PaginatedList<Category>.CreateAsync(category.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Categories/Details/5
