@@ -12,7 +12,7 @@ namespace AlkemyMiniChallenge.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The concept is required")]
+        [Required(ErrorMessage = "The Concept Field is required.")]
         [StringLength(50)]
         public string Concept { get; set; }
 
