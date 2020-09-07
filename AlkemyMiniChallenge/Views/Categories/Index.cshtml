@@ -1,4 +1,4 @@
-﻿@model AlkemyMiniChallenge.Services.PaginatedList<AlkemyMiniChallenge.Models.Category>
+﻿@model IEnumerable<AlkemyMiniChallenge.Models.Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,8 +13,9 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Name)</a>
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -46,23 +47,3 @@
         }
     </tbody>
 </table>
-
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-secondary @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-secondary @nextDisabled">
-    Next
-</a>
