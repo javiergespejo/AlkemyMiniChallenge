@@ -42,7 +42,7 @@ namespace AlkemyMiniChallenge.Controllers
             
             ViewData["CurrentFilter"] = searchString;
 
-            var operation = from s in _context.Operation
+            var operation = from s in _context.Operation.Include(x=>x.Category)
                            select s;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -82,7 +82,7 @@ namespace AlkemyMiniChallenge.Controllers
 
         // GET: Operations/Create
         public IActionResult Create()
-        {
+        {            
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
             return View();
         }
@@ -117,7 +117,7 @@ namespace AlkemyMiniChallenge.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Id", operation.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", operation.CategoryId);
             return View(operation);
         }
 
