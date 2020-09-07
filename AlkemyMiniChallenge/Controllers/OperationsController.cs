@@ -20,10 +20,35 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Operations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var applicationDbContext = _context.Operation.Include(o => o.Category);
-            return View(await applicationDbContext.ToListAsync());
+            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var operation = from s in _context.Operation
+                           select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                operation = operation.Where(s => s.Concept.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "Date":
+                    operation = operation.OrderBy(s => s.Date);
+                    break;
+                case "date_desc":
+                    operation = operation.OrderByDescending(s => s.Date);
+                    break;
+                default:
+                    operation = operation.OrderBy(s => s.Date);
+                    break;
+            }
+            return View(await operation.AsNoTracking().ToListAsync());
+            //var applicationDbContext = _context.Operation.Include(o => o.Category.Name);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Operations/Details/5
