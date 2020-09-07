@@ -8,6 +8,6 @@ namespace AlkemyMiniChallenge.Models
     public enum TypeEnum
     {
         Income,
-        Become
+        Outcome
     }
 }
