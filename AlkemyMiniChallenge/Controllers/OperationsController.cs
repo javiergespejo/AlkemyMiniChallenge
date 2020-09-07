@@ -8,15 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using AlkemyMiniChallenge.Data;
 using AlkemyMiniChallenge.Models;
 using AlkemyMiniChallenge.Services;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace AlkemyMiniChallenge.Controllers
 {
     public class OperationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public OperationsController(ApplicationDbContext context)
+        public OperationsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -27,7 +31,7 @@ namespace AlkemyMiniChallenge.Controllers
             string searchString,
             int? pageNumber)
         {
-            
+
             ViewData["CurrentSort"] = sortOrder;
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
 
@@ -39,11 +43,13 @@ namespace AlkemyMiniChallenge.Controllers
             {
                 searchString = currentFilter;
             }
-            
+
             ViewData["CurrentFilter"] = searchString;
 
-            var operation = from s in _context.Operation.Include(x=>x.Category)
-                           select s;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var operation = from s in _context.Operation.Where(o => o.UserId == userId).Include(x => x.Category)
+                            select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -82,7 +88,7 @@ namespace AlkemyMiniChallenge.Controllers
 
         // GET: Operations/Create
         public IActionResult Create()
-        {            
+        {
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
             return View();
         }
@@ -94,6 +100,10 @@ namespace AlkemyMiniChallenge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Concept,Amount,Type,Date,CategoryId")] Operation operation)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            operation.UserId = userId;
+
             if (ModelState.IsValid)
             {
                 _context.Add(operation);
