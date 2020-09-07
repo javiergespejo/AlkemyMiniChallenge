@@ -31,7 +31,7 @@ namespace AlkemyMiniChallenge.Controllers
             string searchString,
             int? pageNumber)
         {
-
+            
             ViewData["CurrentSort"] = sortOrder;
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
 
@@ -46,8 +46,7 @@ namespace AlkemyMiniChallenge.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            var userId = _userManager.GetUserId(User);
             var operation = from s in _context.Operation.Where(o => o.UserId == userId).Include(x => x.Category)
                             select s;
 
@@ -100,8 +99,7 @@ namespace AlkemyMiniChallenge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Concept,Amount,Type,Date,CategoryId")] Operation operation)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            var userId = _userManager.GetUserId(User);
             operation.UserId = userId;
 
             if (ModelState.IsValid)
