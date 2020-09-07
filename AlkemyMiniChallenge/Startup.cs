@@ -30,7 +30,20 @@ namespace AlkemyMiniChallenge
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => {
+                // SingIn
+                options.SignIn.RequireConfirmedAccount = false;
+                // User
+                options.User.RequireUniqueEmail = true;
+                // Lockout
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                // Password
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 3;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
