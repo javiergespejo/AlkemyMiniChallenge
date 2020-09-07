@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AlkemyMiniChallenge.Data;
 using AlkemyMiniChallenge.Models;
+using AlkemyMiniChallenge.Services;
 
 namespace AlkemyMiniChallenge.Controllers
 {
@@ -20,10 +21,25 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Operations
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? pageNumber)
         {
-            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            
             ViewData["CurrentFilter"] = searchString;
 
             var operation = from s in _context.Operation
@@ -34,21 +50,15 @@ namespace AlkemyMiniChallenge.Controllers
                 operation = operation.Where(s => s.Concept.Contains(searchString));
             }
 
-            switch (sortOrder)
+            operation = sortOrder switch
             {
-                case "Date":
-                    operation = operation.OrderBy(s => s.Date);
-                    break;
-                case "date_desc":
-                    operation = operation.OrderByDescending(s => s.Date);
-                    break;
-                default:
-                    operation = operation.OrderBy(s => s.Date);
-                    break;
-            }
-            return View(await operation.AsNoTracking().ToListAsync());
-            //var applicationDbContext = _context.Operation.Include(o => o.Category.Name);
-            //return View(await applicationDbContext.ToListAsync());
+                "Date" => operation.OrderBy(s => s.Date),
+                "date_desc" => operation.OrderByDescending(s => s.Date),
+                _ => operation.OrderBy(s => s.Date),
+            };
+
+            int pageSize = 10;
+            return View(await PaginatedList<Operation>.CreateAsync(operation.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Operations/Details/5
@@ -73,7 +83,7 @@ namespace AlkemyMiniChallenge.Controllers
         // GET: Operations/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
             return View();
         }
 

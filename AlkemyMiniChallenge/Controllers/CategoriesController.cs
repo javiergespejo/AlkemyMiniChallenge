@@ -20,9 +20,18 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Category.ToListAsync());
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            var category = from s in _context.Category
+                           select s;
+
+            category = sortOrder switch
+            {
+                "name_desc" => category.OrderByDescending(s => s.Name),
+                _ => category.OrderBy(s => s.Name),
+            };
+            return View(await category.AsNoTracking().ToListAsync());
         }
 
         // GET: Categories/Details/5
