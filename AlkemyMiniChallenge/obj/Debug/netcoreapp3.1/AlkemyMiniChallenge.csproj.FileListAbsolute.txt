@@ -194,3 +194,13 @@ E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\V
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Operations\Edit.cshtml.g.cs
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Operations\Index.cshtml.g.cs
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_Layout.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\Email.cshtml.g.cs
