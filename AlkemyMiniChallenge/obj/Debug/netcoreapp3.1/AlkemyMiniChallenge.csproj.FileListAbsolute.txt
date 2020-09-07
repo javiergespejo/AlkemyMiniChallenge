@@ -193,3 +193,4 @@ E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\V
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Operations\Details.cshtml.g.cs
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Operations\Edit.cshtml.g.cs
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Operations\Index.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
