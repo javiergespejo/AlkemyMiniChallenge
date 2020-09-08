@@ -203,3 +203,6 @@ E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\staticw
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\AlkemyMiniChallenge.dll
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\AlkemyMiniChallenge.pdb
 E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\AlkemyMiniChallenge.genruntimeconfig.cache
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\TwoFactorAuthentication.cshtml.g.cs
+E:\Repos\AlkemyMiniChallenge\AlkemyMiniChallenge\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\Index.cshtml.g.cs
