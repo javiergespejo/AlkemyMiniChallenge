@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AlkemyMiniChallenge.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,14 @@ namespace AlkemyMiniChallenge.Controllers
             _userManager = userManager;
             _context = context;
         }
+        [Authorize]
         public IActionResult Index()
         {
-            //var total = db.tblCartItems.Where(t => t.CartId == cartId).Sum(i => i.Price);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var total = _context.Operation.Where(o => o.UserId == userId).Sum(x => x.Amount);
-            ViewBag.TotalBalance = total;
+            var totalIncome = _context.Operation.Where(o => o.UserId == userId && o.Type == Models.TypeEnum.Income).Sum(x => x.Amount);
+            var totalOutcome = _context.Operation.Where(o => o.UserId == userId && o.Type == Models.TypeEnum.Outcome).Sum(x => x.Amount);
+
+            ViewBag.TotalBalance = totalIncome - totalOutcome;
             var operation = from s in _context.Operation.OrderByDescending(x => x.Id).Where(o => o.UserId == userId).Include(x => x.Category).Take(10)
                             select s;
 

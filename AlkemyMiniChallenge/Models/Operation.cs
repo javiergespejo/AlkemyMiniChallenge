@@ -16,6 +16,7 @@ namespace AlkemyMiniChallenge.Models
         [StringLength(50)]
         public string Concept { get; set; }
 
+        [Range(1, Int32.MaxValue, ErrorMessage = "Value should be greater than or equal to 1")]
         public double Amount { get; set; }
 
         public TypeEnum Type{ get; set; }

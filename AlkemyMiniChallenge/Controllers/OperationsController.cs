@@ -10,6 +10,7 @@ using AlkemyMiniChallenge.Models;
 using AlkemyMiniChallenge.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AlkemyMiniChallenge.Controllers
 {
@@ -25,6 +26,7 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Operations
+        [Authorize]
         public async Task<IActionResult> Index(
             string sortOrder,
             string currentFilter,
@@ -67,6 +69,7 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Operations/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -74,27 +77,37 @@ namespace AlkemyMiniChallenge.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var operation = await _context.Operation
                 .Include(o => o.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (operation == null)
             {
                 return NotFound();
+            }
+
+            if (operation.UserId != currentUser.Id)
+            {
+                return RedirectToAction(nameof(Index));
             }
 
             return View(operation);
         }
 
         // GET: Operations/Create
+        [Authorize]
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
+            var userId = _userManager.GetUserId(User);
+            ViewData["CategoryId"] = new SelectList(_context.Category.Where(c => c.UserId == userId), "Id", "Name");
             return View();
         }
 
         // POST: Operations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Concept,Amount,Type,Date,CategoryId")] Operation operation)
@@ -108,23 +121,32 @@ namespace AlkemyMiniChallenge.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Id", operation.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Category.Where(c => c.UserId == userId), "Id", "Id", operation.CategoryId);
             return View(operation);
         }
 
         // GET: Operations/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
+            
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var operation = await _context.Operation.FindAsync(id);
+
             if (operation == null)
             {
                 return NotFound();
             }
+
+            if (operation.UserId != currentUser.Id)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", operation.CategoryId);
             return View(operation);
         }
@@ -132,6 +154,7 @@ namespace AlkemyMiniChallenge.Controllers
         // POST: Operations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Concept,Amount,Type,Date,CategoryId")] Operation operation)
@@ -139,6 +162,14 @@ namespace AlkemyMiniChallenge.Controllers
             if (id != operation.Id)
             {
                 return NotFound();
+            }
+           
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var existingOperation = await _context.Operation.FindAsync(id);
+
+            if (existingOperation.UserId != currentUser.Id)
+            {
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
@@ -166,6 +197,7 @@ namespace AlkemyMiniChallenge.Controllers
         }
 
         // GET: Operations/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -173,12 +205,19 @@ namespace AlkemyMiniChallenge.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var operation = await _context.Operation
                 .Include(o => o.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (operation == null)
             {
                 return NotFound();
+            }
+            
+            if (operation.UserId != currentUser.Id)
+            {
+                return RedirectToAction(nameof(Index));
             }
 
             return View(operation);
@@ -187,9 +226,17 @@ namespace AlkemyMiniChallenge.Controllers
         // POST: Operations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var operation = await _context.Operation.FindAsync(id);
+
+            if (operation.UserId != currentUser.Id)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             _context.Operation.Remove(operation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
