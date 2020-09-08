@@ -14,6 +14,8 @@ namespace AlkemyMiniChallenge.Models
         [Required(ErrorMessage = "Name is empty")]
         public string Name { get; set; }
 
+        public string UserId { get; set; }
+
         [ForeignKey("UserId")]
         public IdentityUser IdentityUser { get; set; }
     }
