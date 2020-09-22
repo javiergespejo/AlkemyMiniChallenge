@@ -1,10 +1,10 @@
 <h1>C#
 Gestor de presupuesto</h1>
 
-<i> Esta aplicación ha sido desarrollada con el fin de aplicar al programa de aceleración que
+<i> Esta aplicación ha sido desarrollada para aplicar al programa de aceleración que
 brinda alkemy.org a desarrolladores, con el fin de impulsar una carrera profesional en el
 mercado laboral. 
-<br>Como resultado final, fui seleccionado por el staff de Alkemy para unirme al programa.</i>
+<br>Como resultado final, fui seleccionado por el staff de Alkemy para unirme a dicho programa.</i>
 
 <br><h3>Objetivo</h3>
 Desarrollar una aplicación para administración de presupuesto personal. La misma debe
